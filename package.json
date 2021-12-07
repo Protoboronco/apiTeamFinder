@@ -15,5 +15,8 @@
     "url": "https://github.com/Protoboronco/apiTeamFinder/issues"
   },
   "homepage": "https://github.com/Protoboronco/apiTeamFinder#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "node": "^17.2.0"
+  }
 }
