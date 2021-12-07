@@ -25,20 +25,20 @@ connection.connect(function(error){
         }
 })
 
-// app.get("/usuarios", function(request,response){
-//     let sql = `SELECT * FROM Usuarios`
-//     connection.query(sql, function(err,res){
+app.get("/usuarios", function(request,response){
+    let sql = `SELECT * FROM Usuarios`
+    connection.query(sql, function(err,res){
         
-//         if(err){
-//                 console.log(err)
-//         }
-//         else{
-//                 let respuesta = {error: false, codigo: 200, resultado: res}
-//                 response.send(respuesta)
-//         }
-//     }
-// )
-// })
+        if(err){
+                console.log(err)
+        }
+        else{
+                let respuesta = {error: false, codigo: 200, resultado: res}
+                response.send(respuesta)
+        }
+    }
+)
+})
 
 
 //holaaa us quiero
