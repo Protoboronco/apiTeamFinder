@@ -36,7 +36,7 @@ app.get("/usuarios", function(request,response){
                 let respuesta = {error: false, codigo: 200, resultado: res}
                 response.send(respuesta)
         }
-}
+    }
 )
 })
 
