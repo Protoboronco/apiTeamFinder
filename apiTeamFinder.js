@@ -1,9 +1,10 @@
 const express = require ("express");
 const app = express();
+const cors = require ("cors");
 let port = process.env.PORT || 3140;
 
-app.use(express.urlencoded({extended: false}))
-app.use(express.json())
+
+app.use(cors())
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
@@ -46,7 +47,7 @@ app.get("/usuarios", function(request,response){
 )
 })
 
-     
+
 
 app.post('/login', (req, res) => {
         const user              = req.body.nombre;
@@ -284,6 +285,127 @@ app.get("/usuario", function(request,response){
         })}
         // console.log("entra")
     })
-//holaaa us quiero
+
+
+
+
+//     ****************************** EQUIPOS *******************************
+
+app.get("/equipo", function(request,response){
+    
+        let id = request.query.id
+    
+        if (id == null){
+    
+            let sql = `SELECT * FROM equipo`
+            let respuesta;
+    
+            connection.query(sql, function(err,res){
+            
+                if(err){
+    
+                    console.log(err)
+                    respuesta = {error: true, codigo: 200, resultado:res}
+                }
+                else{
+                    respuesta = {error: false, codigo: 200, resultado:res}
+                   
+                }
+                response.send(respuesta)
+            })
+        }
+        else {
+            
+            let sql = `SELECT equipo_id, nombre_equipo, creador, juego FROM equipo WHERE equipo_id = ${id}`
+    
+            connection.query(sql, function(err,res){
+    
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log(res)
+                    let respuesta = {error: false, codigo:200, resultado:res}
+                    response.send(respuesta)
+                }
+            })
+        }
+    
+    })
+    
+    app.post("/equipo", function(request, response){
+    
+        let respuesta;
+        let sql = `INSERT INTO equipo(nombre_equipo, creador, juego) 
+                   VALUES(\"${request.body.nombre_equipo}\", \"${request.body.creador}\", \"${request.body.juego}\")`
+    
+                connection.query(sql, function(err,res){
+                        if(err){
+                                console.log(err)
+                        }
+                        else{
+                                console.log("creado")
+                                console.log(res)
+                                respuesta = {error: false, codigo: 200, mensaje: "Equipo creado", resultado: res}
+                                response.send(respuesta)
+                        }
+                })
+                // console.log("entra")
+    })
+    
+    app.put("/equipo", function(request, response){
+
+    let respuesta;
+        let id = request.body.equipo_id
+        let nombre_equipo = request.body.nombre_equipo
+        let creador = request.body.creador
+        let juego = request.body.juego
+     
+    
+        let params = [id, nombre_equipo, creador, juego]
+        
+        let sql = 
+        `UPDATE equipo SET nombre_equipo = \"${request.body.nombre_equipo}\", creador = \"${request.body.creador}\",
+         juego =  \"${request.body.juego}\", equipo_id = \"${request.body.equipo_id}\" WHERE equipo_id = ${id}` 
+                   
+        connection.query(sql, params, function(err,res){
+                if(err){
+                         console.log(err)
+                         respuesta = {error: true, codigo: 200, mensaje: "error", resultado: res}
+    
+                }
+                else{   console.log("usuario cambiado")
+                        console.log(res)
+                        respuesta = {error: false, codigo: 200, mensaje: "equipo cambiado", resultado: res}
+                        
+                }
+                response.send(respuesta)
+        })
+        // console.log("entra")
+    })
+    
+    app.delete("/equipo", function(request, response){
+    
+        let id = request.query.id
+        console.log(id)
+        if (id != null){
+        let sql2 = `DELETE FROM equipo WHERE equipo_id = ${id}`
+        connection.query(sql2, function(err,res){
+            let respuesta;
+                if(err){
+                        console.log(err)
+                        respuesta = {error: true, codigo: 200, mensaje: "ERROR", resultado: res}
+                }
+                else{
+                        console.log("eliminado")
+                        console.log(res)
+                        respuesta = {error: false, codigo: 200, mensaje: "equipo eliminado", resultado: res}
+                       
+                }
+            
+                response.send(respuesta)
+        })}
+        // console.log("entra")
+    })
 
 app.listen(port)
