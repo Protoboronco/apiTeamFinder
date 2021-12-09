@@ -262,6 +262,11 @@ app.get("/usuario", function(request,response){
         connection.query(sql2, function(err,res){
             let respuesta;
                 if(err){
+
+
+
+
+                    
                         console.log(err)
                         respuesta = {error: true, codigo: 200, mensaje: "ERROR", resultado: res}
                 }
